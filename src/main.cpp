@@ -1,9 +1,9 @@
 #include <iostream>
 #include "smdmodel.h"
 
-#pragma comment(lib,"sharedutils.lib")
-#pragma comment(lib,"mathutil.lib")
-#pragma comment(lib,"vfilesystem.lib")
+#pragma comment(lib, "sharedutils.lib")
+#pragma comment(lib, "mathutil.lib")
+#pragma comment(lib, "vfilesystem.lib")
 /*
 int main(int argc,char *argv[])
 {
