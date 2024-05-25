@@ -6,9 +6,9 @@
 static Mat4 euler_angles_to_matrix(const EulerAngles &ang)
 {
 	auto r = Mat4(1.f);
-	r = glm::rotate(r, -ang.r, uvec::RIGHT);
-	r = glm::rotate(r, -ang.y, uvec::UP);
-	r = glm::rotate(r, ang.p, uvec::FORWARD);
+	r = glm::gtc::rotate(r, -ang.r, uvec::RIGHT);
+	r = glm::gtc::rotate(r, -ang.y, uvec::UP);
+	r = glm::gtc::rotate(r, ang.p, uvec::FORWARD);
 	return r;
 }
 
