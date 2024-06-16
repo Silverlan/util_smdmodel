@@ -8,9 +8,6 @@ pr_add_dependency(${PROJ_NAME} vfilesystem TARGET PUBLIC)
 pr_add_headers(${PROJ_NAME} "include/")
 pr_add_sources(${PROJ_NAME} "src/")
 
-pr_add_compile_definitions(
-	${PROJ_NAME}
-		-DSMDMDL_STATIC
-)
+pr_add_compile_definitions(${PROJ_NAME} -DSMDMDL_STATIC PUBLIC)
 
 pr_finalize(${PROJ_NAME})
