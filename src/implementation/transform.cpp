@@ -1,7 +1,14 @@
-#include "smdmodel.h"
+/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
+
+module;
+
 #include <mathutil/umat.h>
 #include <mathutil/uvec.h>
 #include <mathutil/eulerangles.h>
+
+module se_smd.model;
 
 static Mat4 euler_angles_to_matrix(const EulerAngles &ang)
 {
@@ -72,7 +79,7 @@ static Quat get_rotation(const Mat4 &m)
 	return q;
 }
 
-void SMDModel::BuildNodeMatrix(Frame &frame, UInt id, std::vector<Mat4> &matrices)
+void source_engine::smd::SMDModel::BuildNodeMatrix(Frame &frame, UInt id, std::vector<Mat4> &matrices)
 {
 	auto &nodes = GetNodes();
 	auto &node = nodes[id];
@@ -133,7 +140,7 @@ static void convert_rotation(Quat &rot)
 	rot.w = z;
 }
 
-void SMDModel::ConvertCoordinateSystem()
+void source_engine::smd::SMDModel::ConvertCoordinateSystem()
 {
 	auto &nodes = GetNodes();
 	auto &frames = GetFrames();

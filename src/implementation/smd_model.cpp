@@ -1,6 +1,17 @@
-#include "smdmodel.h"
+/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
+
+module;
+
 #include <fsys/filesystem.h>
 #include <sharedutils/util_string.h>
+#include <mathutil/umath.h>
+#include <mathutil/uvec.h>
+
+module se_smd.model;
+
+using namespace source_engine::smd;
 
 #define MAX_VERT_LENGTH 524'288
 
