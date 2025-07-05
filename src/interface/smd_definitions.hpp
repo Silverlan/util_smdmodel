@@ -1,3 +1,6 @@
+// SPDX-FileCopyrightText: (c) 2024 Silverlan <opensource@pragma-engine.com>
+// SPDX-License-Identifier: MIT
+
 #ifndef __SMDDEFINITIONS_H__
 #define __SMDDEFINITIONS_H__
 
