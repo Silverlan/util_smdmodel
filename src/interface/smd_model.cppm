@@ -14,8 +14,7 @@ module;
 
 export module se_smd.model;
 
-export namespace source_engine::smd
-{
+export namespace source_engine::smd {
 	class DLLSMDMDL SMDModel {
 	  public:
 		struct DLLSMDMDL Node {
