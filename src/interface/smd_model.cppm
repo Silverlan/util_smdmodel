@@ -6,13 +6,11 @@ module;
 #include <string>
 #include <memory>
 #include <unordered_map>
-#include <mathutil/umath.h>
-#include <mathutil/uvec.h>
-#include <mathutil/uquat.h>
-#include <fsys/vfileptr.h>
 #include "smd_definitions.hpp"
 
 export module se_smd.model;
+
+export import pragma.filesystem;
 
 export namespace source_engine::smd {
 	class DLLSMDMDL SMDModel {

@@ -3,10 +3,11 @@
 
 module;
 
-#include <fsys/filesystem.h>
-#include <sharedutils/util_string.h>
-#include <mathutil/umath.h>
-#include <mathutil/uvec.h>
+#include "mathutil/glmutil.h"
+#include <cmath>
+#include <algorithm>
+#include <string>
+#include <memory>
 
 module se_smd.model;
 
