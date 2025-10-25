@@ -4,6 +4,7 @@
 module;
 
 #include "mathutil/glmutil.h"
+#include <vector>
 #include <cmath>
 
 module se_smd.model;

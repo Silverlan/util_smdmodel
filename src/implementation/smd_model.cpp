@@ -8,6 +8,8 @@ module;
 #include <algorithm>
 #include <string>
 #include <memory>
+#include <vector>
+#include <unordered_map>
 
 module se_smd.model;
 
