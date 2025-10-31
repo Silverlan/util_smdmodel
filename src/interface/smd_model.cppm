@@ -3,10 +3,6 @@
 
 module;
 
-#include <string>
-#include <memory>
-#include <unordered_map>
-#include <vector>
 #include "smd_definitions.hpp"
 
 export module se_smd.model;
