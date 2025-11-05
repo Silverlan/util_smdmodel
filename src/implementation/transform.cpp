@@ -3,8 +3,6 @@
 
 module;
 
-#include "mathutil/glmutil.h"
-
 module se_smd.model;
 
 static Mat4 euler_angles_to_matrix(const EulerAngles &ang)

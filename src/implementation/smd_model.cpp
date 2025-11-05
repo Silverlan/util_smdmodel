@@ -3,8 +3,6 @@
 
 module;
 
-#include "mathutil/glmutil.h"
-
 module se_smd.model;
 
 using namespace source_engine::smd;
