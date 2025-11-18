@@ -3,11 +3,6 @@
 
 module;
 
-#include <fsys/filesystem.h>
-#include <sharedutils/util_string.h>
-#include <mathutil/umath.h>
-#include <mathutil/uvec.h>
-
 module se_smd.model;
 
 using namespace source_engine::smd;
