@@ -42,9 +42,9 @@ void SMDModel::ReadNodeBlock(VFilePtr &f)
 				ustring::remove_quotes(args[i]);
 			m_nodes.push_back(Node());
 			auto &node = m_nodes.back();
-			node.id = atoi(args[0].c_str());
+			node.id = ustring::to_int(args[0]);
 			node.name = args[1];
-			node.parent = atoi(args[2].c_str());
+			node.parent = ustring::to_int(args[2]);
 		}
 	}
 }
@@ -59,7 +59,7 @@ void SMDModel::ReadSkeletonBlock(VFilePtr &f)
 		if(args.size() > 1) {
 			ustring::to_lower(args[0]);
 			if(args[0] == "time") {
-				auto frame = atoi(args[1].c_str());
+				auto frame = ustring::to_int(args[1]);
 				if(time != -1 && frame != (time + 1))
 					return;
 				if(time == -1)
@@ -69,13 +69,13 @@ void SMDModel::ReadSkeletonBlock(VFilePtr &f)
 			}
 			else if(time != -1 && args.size() >= 7) {
 				auto &frame = m_frames.back();
-				auto boneId = atoi(args[0].c_str());
+				auto boneId = ustring::to_int(args[0]);
 				if(boneId >= 0) {
 					if(frame.transforms.size() < (boneId + 1))
 						frame.transforms.resize(boneId + 1);
 					auto &t = frame.transforms[boneId];
-					t.position = Vector3(-atof(args[1].c_str()), atof(args[2].c_str()), atof(args[3].c_str()));
-					t.angles = EulerAngles(atof(args[4].c_str()), atof(args[5].c_str()), atof(args[6].c_str()));
+					t.position = Vector3(-ustring::to_float(args[1]), ustring::to_float(args[2]), ustring::to_float(args[3]));
+					t.angles = EulerAngles(ustring::to_float(args[4]), ustring::to_float(args[5]), ustring::to_float(args[6]));
 					//t.rotation = uquat::create(t.angles);
 				}
 			}
@@ -112,19 +112,19 @@ void SMDModel::ReadTriangleBlock(VFilePtr &f)
 			ustring::explode_whitespace(l, args);
 			if(args.size() >= 9) {
 				auto &v = tri->vertices[vertId];
-				v.bone = atoi(args[0].c_str());
-				v.position = Vector3(atof(args[1].c_str()), atof(args[2].c_str()), atof(args[3].c_str()));
+				v.bone = ustring::to_int(args[0]);
+				v.position = Vector3(ustring::to_float(args[1]), ustring::to_float(args[2]), ustring::to_float(args[3]));
 				auto l = uvec::length(v.position);
 				if(l > MAX_VERT_LENGTH)
 					bInvalid = true;
-				v.normal = Vector3(atof(args[4].c_str()), atof(args[5].c_str()), atof(args[6].c_str()));
-				v.uv = Vector2(atof(args[7].c_str()), atof(args[8].c_str()));
+				v.normal = Vector3(ustring::to_float(args[4]), ustring::to_float(args[5]), ustring::to_float(args[6]));
+				v.uv = Vector2(ustring::to_float(args[7]), ustring::to_float(args[8]));
 				if(args.size() >= 10) {
-					auto numLinks = atoi(args[9].c_str());
+					auto numLinks = ustring::to_int(args[9]);
 					auto sum = 0.f;
 					for(auto i = 0; i < numLinks; i++) {
-						auto boneId = atoi(args[10 + i * 2].c_str());
-						auto weight = atof(args[11 + i * 2].c_str());
+						auto boneId = ustring::to_int(args[10 + i * 2]);
+						auto weight = ustring::to_float(args[11 + i * 2]);
 						v.weights.insert(std::unordered_map<int, float>::value_type(boneId, weight));
 						sum += weight;
 					}
