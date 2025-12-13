@@ -92,7 +92,7 @@ void source_engine::smd::SMDModel::BuildNodeMatrix(Frame &frame, UInt id, std::v
 
 static void rotation_to_axis_angle(Quat &rot, Vector3 &axis, float &angle)
 {
-	angle = 2.f * umath::acos(rot.w);
+	angle = 2.f * pragma::math::acos(rot.w);
 	auto sqr = sqrtf(1.f - rot.w * rot.w);
 	if(sqr == 0.f) {
 		axis = Vector3(0.f, 0.f, 0.f);
@@ -103,12 +103,12 @@ static void rotation_to_axis_angle(Quat &rot, Vector3 &axis, float &angle)
 
 static void axis_angle_to_rotation(Vector3 &axis, float angle, Quat &rot)
 {
-	auto s = umath::sin(angle / 2.f);
+	auto s = pragma::math::sin(angle / 2.f);
 	if(s == 0.f) {
 		rot = Quat(1.f, 0.f, 0.f, 0.f);
 		return;
 	}
-	rot = Quat(umath::cos(angle / 2.f), axis.x * s, axis.y * s, axis.z * s);
+	rot = Quat(pragma::math::cos(angle / 2.f), axis.x * s, axis.y * s, axis.z * s);
 }
 
 static void convert_rotation(Quat &rot)

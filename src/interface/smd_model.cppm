@@ -58,18 +58,18 @@ export namespace source_engine::smd {
 		std::vector<Frame> m_frames;
 		std::vector<Mesh> m_meshes;
 		Skeleton m_skeleton;
-		void ReadNodeBlock(VFilePtr &f);
-		void ReadSkeletonBlock(VFilePtr &f);
-		void ReadTriangleBlock(VFilePtr &f);
+		void ReadNodeBlock(pragma::fs::VFilePtr &f);
+		void ReadSkeletonBlock(pragma::fs::VFilePtr &f);
+		void ReadTriangleBlock(pragma::fs::VFilePtr &f);
 		void BuildNodeMatrix(Frame &frame, UInt id, std::vector<Mat4> &matrices);
 		void BuildSkeleton();
 		void ConvertCoordinateSystem();
-		static Bool ReadLine(VFilePtr &f, std::string &l, Bool skipEmptyLines = true);
-		static Bool ReadBlockLine(VFilePtr &f, std::string &l);
+		static Bool ReadLine(pragma::fs::VFilePtr &f, std::string &l, Bool skipEmptyLines = true);
+		static Bool ReadBlockLine(pragma::fs::VFilePtr &f, std::string &l);
 	  public:
 		~SMDModel();
 		static std::unique_ptr<SMDModel> Load(const std::string &file);
-		static std::unique_ptr<SMDModel> Load(VFilePtr &file);
+		static std::unique_ptr<SMDModel> Load(pragma::fs::VFilePtr &file);
 		std::vector<Node> &GetNodes();
 		std::vector<Frame> &GetFrames();
 		std::vector<Mesh> &GetMeshes();

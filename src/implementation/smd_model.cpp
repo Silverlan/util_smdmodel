@@ -31,35 +31,35 @@ SMDModel::SMDModel() {}
 
 SMDModel::~SMDModel() {}
 
-void SMDModel::ReadNodeBlock(VFilePtr &f)
+void SMDModel::ReadNodeBlock(pragma::fs::VFilePtr &f)
 {
 	std::string l;
 	while(ReadBlockLine(f, l) == true) {
 		std::vector<std::string> args;
-		ustring::explode_whitespace(l, args);
+		pragma::string::explode_whitespace(l, args);
 		if(args.size() >= 3) {
 			for(auto i = 0; i < 3; i++)
-				ustring::remove_quotes(args[i]);
+				pragma::string::remove_quotes(args[i]);
 			m_nodes.push_back(Node());
 			auto &node = m_nodes.back();
-			node.id = ustring::to_int(args[0]);
+			node.id = pragma::string::to_int(args[0]);
 			node.name = args[1];
-			node.parent = ustring::to_int(args[2]);
+			node.parent = pragma::string::to_int(args[2]);
 		}
 	}
 }
 
-void SMDModel::ReadSkeletonBlock(VFilePtr &f)
+void SMDModel::ReadSkeletonBlock(pragma::fs::VFilePtr &f)
 {
 	std::string l;
 	int time = -1;
 	while(ReadBlockLine(f, l) == true) {
 		std::vector<std::string> args;
-		ustring::explode_whitespace(l, args);
+		pragma::string::explode_whitespace(l, args);
 		if(args.size() > 1) {
-			ustring::to_lower(args[0]);
+			pragma::string::to_lower(args[0]);
 			if(args[0] == "time") {
-				auto frame = ustring::to_int(args[1]);
+				auto frame = pragma::string::to_int(args[1]);
 				if(time != -1 && frame != (time + 1))
 					return;
 				if(time == -1)
@@ -69,13 +69,13 @@ void SMDModel::ReadSkeletonBlock(VFilePtr &f)
 			}
 			else if(time != -1 && args.size() >= 7) {
 				auto &frame = m_frames.back();
-				auto boneId = ustring::to_int(args[0]);
+				auto boneId = pragma::string::to_int(args[0]);
 				if(boneId >= 0) {
 					if(frame.transforms.size() < (boneId + 1))
 						frame.transforms.resize(boneId + 1);
 					auto &t = frame.transforms[boneId];
-					t.position = Vector3(-ustring::to_float(args[1]), ustring::to_float(args[2]), ustring::to_float(args[3]));
-					t.angles = EulerAngles(ustring::to_float(args[4]), ustring::to_float(args[5]), ustring::to_float(args[6]));
+					t.position = Vector3(-pragma::string::to_float(args[1]), pragma::string::to_float(args[2]), pragma::string::to_float(args[3]));
+					t.angles = EulerAngles(pragma::string::to_float(args[4]), pragma::string::to_float(args[5]), pragma::string::to_float(args[6]));
 					//t.rotation = uquat::create(t.angles);
 				}
 			}
@@ -83,11 +83,11 @@ void SMDModel::ReadSkeletonBlock(VFilePtr &f)
 	}
 }
 
-void SMDModel::ReadTriangleBlock(VFilePtr &f)
+void SMDModel::ReadTriangleBlock(pragma::fs::VFilePtr &f)
 {
 	std::string l;
 	auto vertId = -1;
-	SMDModel::Mesh *mesh = nullptr;
+	Mesh *mesh = nullptr;
 	Triangle *tri = nullptr;
 	auto bInvalid = false;
 	while(ReadBlockLine(f, l) == true) {
@@ -95,7 +95,7 @@ void SMDModel::ReadTriangleBlock(VFilePtr &f)
 			bInvalid = false;
 			auto tex = l;
 			auto pos = tex.find_last_of('.');
-			if(pos != ustring::NOT_FOUND)
+			if(pos != pragma::string::NOT_FOUND)
 				tex = tex.substr(0, pos);
 			auto it = std::find_if(m_meshes.begin(), m_meshes.end(), [tex](Mesh &mesh) { return (mesh.texture == tex) ? true : false; });
 			if(it == m_meshes.end()) {
@@ -109,22 +109,22 @@ void SMDModel::ReadTriangleBlock(VFilePtr &f)
 		}
 		else {
 			std::vector<std::string> args;
-			ustring::explode_whitespace(l, args);
+			pragma::string::explode_whitespace(l, args);
 			if(args.size() >= 9) {
 				auto &v = tri->vertices[vertId];
-				v.bone = ustring::to_int(args[0]);
-				v.position = Vector3(ustring::to_float(args[1]), ustring::to_float(args[2]), ustring::to_float(args[3]));
+				v.bone = pragma::string::to_int(args[0]);
+				v.position = Vector3(pragma::string::to_float(args[1]), pragma::string::to_float(args[2]), pragma::string::to_float(args[3]));
 				auto l = uvec::length(v.position);
 				if(l > MAX_VERT_LENGTH)
 					bInvalid = true;
-				v.normal = Vector3(ustring::to_float(args[4]), ustring::to_float(args[5]), ustring::to_float(args[6]));
-				v.uv = Vector2(ustring::to_float(args[7]), ustring::to_float(args[8]));
+				v.normal = Vector3(pragma::string::to_float(args[4]), pragma::string::to_float(args[5]), pragma::string::to_float(args[6]));
+				v.uv = Vector2(pragma::string::to_float(args[7]), pragma::string::to_float(args[8]));
 				if(args.size() >= 10) {
-					auto numLinks = ustring::to_int(args[9]);
+					auto numLinks = pragma::string::to_int(args[9]);
 					auto sum = 0.f;
 					for(auto i = 0; i < numLinks; i++) {
-						auto boneId = ustring::to_int(args[10 + i * 2]);
-						auto weight = ustring::to_float(args[11 + i * 2]);
+						auto boneId = pragma::string::to_int(args[10 + i * 2]);
+						auto weight = pragma::string::to_float(args[11 + i * 2]);
 						v.weights.insert(std::unordered_map<int, float>::value_type(boneId, weight));
 						sum += weight;
 					}
@@ -142,33 +142,33 @@ void SMDModel::ReadTriangleBlock(VFilePtr &f)
 	}
 }
 
-Bool SMDModel::ReadLine(VFilePtr &f, std::string &l, Bool skipEmptyLines)
+Bool SMDModel::ReadLine(pragma::fs::VFilePtr &f, std::string &l, Bool skipEmptyLines)
 {
 	if(f->Eof())
 		return false;
 	l = f->ReadLine();
-	ustring::remove_whitespace(l);
+	pragma::string::remove_whitespace(l);
 	if((skipEmptyLines == true && l.empty()) || (!l.empty() && (l.front() == '#' || l.front() == ';')))
 		return ReadLine(f, l);
 	return true;
 }
 
-Bool SMDModel::ReadBlockLine(VFilePtr &f, std::string &l)
+Bool SMDModel::ReadBlockLine(pragma::fs::VFilePtr &f, std::string &l)
 {
 	auto r = ReadLine(f, l, false);
 	auto ll = l;
-	ustring::to_lower(ll);
+	pragma::string::to_lower(ll);
 	if(r == false || ll == "end")
 		return false;
 	return true;
 }
 
-std::unique_ptr<SMDModel> SMDModel::Load(VFilePtr &f)
+std::unique_ptr<SMDModel> SMDModel::Load(pragma::fs::VFilePtr &f)
 {
 	auto mdl = std::unique_ptr<SMDModel>(new SMDModel);
 	std::string l;
 	while(ReadLine(f, l) == true) {
-		ustring::to_lower(l);
+		pragma::string::to_lower(l);
 		if(l == "nodes")
 			mdl->ReadNodeBlock(f);
 		else if(l == "skeleton")
@@ -183,9 +183,9 @@ std::unique_ptr<SMDModel> SMDModel::Load(VFilePtr &f)
 
 std::unique_ptr<SMDModel> SMDModel::Load(const std::string &file)
 {
-	auto f = FileManager::OpenFile(file.c_str(), "r");
+	auto f = pragma::fs::open_file(file.c_str(), pragma::fs::FileMode::Read);
 	if(f == nullptr)
-		f = FileManager::OpenSystemFile(file.c_str(), "r");
+		f = pragma::fs::open_system_file(file.c_str(), pragma::fs::FileMode::Read);
 	if(f == nullptr)
 		return nullptr;
 	return Load(f);
