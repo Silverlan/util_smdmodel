@@ -8,9 +8,9 @@ module se_smd.model;
 static Mat4 euler_angles_to_matrix(const EulerAngles &ang)
 {
 	auto r = Mat4(1.f);
-	r = glm::gtc::rotate(r, -ang.r, uvec::RIGHT);
-	r = glm::gtc::rotate(r, -ang.y, uvec::UP);
-	r = glm::gtc::rotate(r, ang.p, uvec::FORWARD);
+	r = glm::gtc::rotate(r, -ang.r, uvec::PRM_RIGHT);
+	r = glm::gtc::rotate(r, -ang.y, uvec::PRM_UP);
+	r = glm::gtc::rotate(r, ang.p, uvec::PRM_FORWARD);
 	return r;
 }
 
